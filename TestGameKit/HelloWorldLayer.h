@@ -12,12 +12,27 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
+
+typedef struct
+{
+	
+	NSInteger number;
+} BasicPacket;
+
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
+@interface HelloWorldLayer : CCLayer <GKSessionDelegate>
 {
 }
 
+@property (nonatomic, strong) NSMutableArray *connectedClients;
+@property (nonatomic, strong) GKSession *session;
+
+
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
+
+
+@property (nonatomic, strong) NSMutableArray *availableServers;
+@property (nonatomic, strong) NSString *serverPeerID;
 
 @end

@@ -59,6 +59,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+#ifdef ANDROID
+    [UIScreen mainScreen].currentMode = [UIScreenMode emulatedMode:UIScreenIPhone4EmulationMode]; // Good for general display
+#endif
+    
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	

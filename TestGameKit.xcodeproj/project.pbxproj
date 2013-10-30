@@ -143,6 +143,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		083FB2881821553D00B717EB /* configuration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = configuration.json; path = TestGameKit.approj/configuration.json; sourceTree = "<group>"; };
 		DAED3CEB1805A15B0053863D /* TestGameKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestGameKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAED3CEE1805A15B0053863D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DAED3CF01805A15B0053863D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -445,9 +446,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		083FB2871821552500B717EB /* Apportable */ = {
+			isa = PBXGroup;
+			children = (
+				083FB2881821553D00B717EB /* configuration.json */,
+			);
+			name = Apportable;
+			sourceTree = "<group>";
+		};
 		DAED3CE21805A15B0053863D = {
 			isa = PBXGroup;
 			children = (
+				083FB2871821552500B717EB /* Apportable */,
 				DAED3D021805A15B0053863D /* TestGameKit */,
 				DAED3CED1805A15B0053863D /* Frameworks */,
 				DAED3CEC1805A15B0053863D /* Products */,
@@ -1163,6 +1173,7 @@
 				DAED3E9D1805A15D0053863D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
