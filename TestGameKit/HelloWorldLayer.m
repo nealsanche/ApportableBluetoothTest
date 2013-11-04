@@ -13,6 +13,8 @@
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
+#import "BluetoothConnectionManager.h"
+
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
@@ -97,16 +99,27 @@
 	return self;
 }
 
-- (void)server{
-    
+- (void)server {
+
+    _bcm = [[BluetoothConnectionManager alloc] initWithName:@"TestGameKit" isClient:NO delegate:self];
+
+    [_bcm startPublishing];
+
+    /*
     _session = [[GKSession alloc] initWithSessionID:kSessionID displayName:nil sessionMode:GKSessionModeServer];
     _session.delegate = self;
     _session.available = YES;
     [_session setDataReceiveHandler:self withContext:nil];
+     */
 }
 
 - (void)client:(CCMenuItemFont *)menuItem{
-    
+
+    _bcm = [[BluetoothConnectionManager alloc] initWithName:@"TestGameKit" isClient:YES delegate:self];
+
+    [_bcm startSearching];
+
+    /*
     if (!_session) {
         _session = [[GKSession alloc] initWithSessionID:kSessionID displayName:nil sessionMode:GKSessionModeClient];
         _session.delegate = self;
@@ -115,7 +128,8 @@
         [menuItem setString:@"Join"];
     }else if(_session && [_availableServers count] > 0){
         [_session connectToPeer:_availableServers[0] withTimeout:5.0f];
-    }   
+    }
+     */
 
 }
 
@@ -261,5 +275,14 @@
     NSLog(@"Number received: %d", basicPacket->number);
     [self addRandomLabel:basicPacket->number ];
 }
+
+- (void)didConnectToServer:(BluetoothSocket *)server {
+    NSLog(@"didConnectToServer: %@", server);
+}
+
+- (void)connectionReceived:(BluetoothSocket *)clientDevice {
+    NSLog(@"connectionReceived: %@", clientDevice);
+}
+
 
 @end

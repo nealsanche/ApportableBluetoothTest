@@ -57,7 +57,7 @@
     //   "write_external_storage"
     //   "write_settings"
     //   "xperia"
-    "FEATURES": ["opengles2","landscape", "bluetooth", "access_wifi_state"],
+    "FEATURES": ["opengles2","landscape", "bluetooth", "bluetooth_admin", "access_wifi_state"],
 
     // Preferred way of handling URLs in the code.
     // Leave it null for most cases.
@@ -195,10 +195,21 @@
     "infoplists": [],
 
     //A list of specific java sources file to compile
-    "java_sources": [],
+    "java_sources": [
+         "./apportable/google/src/com/apportable/bluetooth/BluetoothConnectionManager.java",
+         "./apportable/google/src/com/apportable/bluetooth/Connection.java",
+         "./apportable/google/src/com/apportable/bluetooth/ConnectionClientService.java",
+         "./apportable/google/src/com/apportable/bluetooth/ConnectionServerService.java",
+         "./apportable/google/src/com/apportable/bluetooth/ConnectionService.java",
+         "./apportable/google/src/com/apportable/bluetooth/StartDiscoverableModeActivity.java",
+         "./apportable/google/src/com/apportable/bluetooth/IConnection.java",
+         "./apportable/google/src/com/apportable/bluetooth/IConnectionCallback.java",
+      ],
 
     //A list of the java root source directories
-    "java_sourcepaths": [],
+    "java_sourcepaths": [
+      "apportable/google/src",
+    ],
 
     //A list of java Librarys (jars)
     "java_libs": [],

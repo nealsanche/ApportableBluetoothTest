@@ -8,6 +8,8 @@
 
 
 #import <GameKit/GameKit.h>
+#import "BluetoothSocket.h"
+#import "BluetoothConnectionManager.h"
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
@@ -22,6 +24,7 @@ typedef struct
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKSessionDelegate>
 {
+    BluetoothConnectionManager *_bcm;
 }
 
 @property (nonatomic, strong) NSMutableArray *connectedClients;
@@ -34,5 +37,9 @@ typedef struct
 
 @property (nonatomic, strong) NSMutableArray *availableServers;
 @property (nonatomic, strong) NSString *serverPeerID;
+
+- (void)didConnectToServer:(BluetoothSocket *)server;
+- (void)connectionReceived:(BluetoothSocket *)clientDevice;
+
 
 @end

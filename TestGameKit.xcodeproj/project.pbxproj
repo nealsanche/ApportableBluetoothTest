@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		083FB290182159C200B717EB /* BluetoothConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 083FB28D182159C200B717EB /* BluetoothConnectionManager.m */; };
+		083FB291182159C200B717EB /* BluetoothReadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 083FB28E182159C200B717EB /* BluetoothReadQueue.m */; };
+		083FB292182159C200B717EB /* BluetoothSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 083FB28F182159C200B717EB /* BluetoothSocket.m */; };
 		DAED3CEF1805A15B0053863D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAED3CEE1805A15B0053863D /* QuartzCore.framework */; };
 		DAED3CF11805A15B0053863D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAED3CF01805A15B0053863D /* OpenGLES.framework */; };
 		DAED3CF31805A15B0053863D /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAED3CF21805A15B0053863D /* OpenAL.framework */; };
@@ -144,6 +147,20 @@
 
 /* Begin PBXFileReference section */
 		083FB2881821553D00B717EB /* configuration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = configuration.json; path = TestGameKit.approj/configuration.json; sourceTree = "<group>"; };
+		083FB28A182159B500B717EB /* BluetoothConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectionManager.h; path = apportable/include/bluetooth/BluetoothConnectionManager.h; sourceTree = "<group>"; };
+		083FB28B182159B500B717EB /* BluetoothReadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothReadQueue.h; path = apportable/include/bluetooth/BluetoothReadQueue.h; sourceTree = "<group>"; };
+		083FB28C182159B500B717EB /* BluetoothSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothSocket.h; path = apportable/include/bluetooth/BluetoothSocket.h; sourceTree = "<group>"; };
+		083FB28D182159C200B717EB /* BluetoothConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothConnectionManager.m; path = apportable/src/BluetoothConnectionManager.m; sourceTree = "<group>"; };
+		083FB28E182159C200B717EB /* BluetoothReadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothReadQueue.m; path = apportable/src/BluetoothReadQueue.m; sourceTree = "<group>"; };
+		083FB28F182159C200B717EB /* BluetoothSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothSocket.m; path = apportable/src/BluetoothSocket.m; sourceTree = "<group>"; };
+		083FB29318217B8600B717EB /* BluetoothConnectionManager.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = BluetoothConnectionManager.java; path = apportable/google/src/com/apportable/bluetooth/BluetoothConnectionManager.java; sourceTree = "<group>"; };
+		083FB29418217B8600B717EB /* Connection.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = Connection.java; path = apportable/google/src/com/apportable/bluetooth/Connection.java; sourceTree = "<group>"; };
+		083FB29518217B8600B717EB /* ConnectionClientService.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ConnectionClientService.java; path = apportable/google/src/com/apportable/bluetooth/ConnectionClientService.java; sourceTree = "<group>"; };
+		083FB29618217B8600B717EB /* ConnectionServerService.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ConnectionServerService.java; path = apportable/google/src/com/apportable/bluetooth/ConnectionServerService.java; sourceTree = "<group>"; };
+		083FB29718217B8600B717EB /* ConnectionService.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = ConnectionService.java; path = apportable/google/src/com/apportable/bluetooth/ConnectionService.java; sourceTree = "<group>"; };
+		083FB29818217B8600B717EB /* IConnection.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = IConnection.java; path = apportable/google/src/com/apportable/bluetooth/IConnection.java; sourceTree = "<group>"; };
+		083FB29918217B8600B717EB /* IConnectionCallback.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = IConnectionCallback.java; path = apportable/google/src/com/apportable/bluetooth/IConnectionCallback.java; sourceTree = "<group>"; };
+		083FB29A18217B8600B717EB /* StartDiscoverableModeActivity.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = StartDiscoverableModeActivity.java; path = apportable/google/src/com/apportable/bluetooth/StartDiscoverableModeActivity.java; sourceTree = "<group>"; };
 		DAED3CEB1805A15B0053863D /* TestGameKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestGameKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAED3CEE1805A15B0053863D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DAED3CF01805A15B0053863D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -454,9 +471,31 @@
 			name = Apportable;
 			sourceTree = "<group>";
 		};
+		083FB2891821597800B717EB /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				083FB29318217B8600B717EB /* BluetoothConnectionManager.java */,
+				083FB29418217B8600B717EB /* Connection.java */,
+				083FB29518217B8600B717EB /* ConnectionClientService.java */,
+				083FB29618217B8600B717EB /* ConnectionServerService.java */,
+				083FB29718217B8600B717EB /* ConnectionService.java */,
+				083FB29818217B8600B717EB /* IConnection.java */,
+				083FB29918217B8600B717EB /* IConnectionCallback.java */,
+				083FB29A18217B8600B717EB /* StartDiscoverableModeActivity.java */,
+				083FB28D182159C200B717EB /* BluetoothConnectionManager.m */,
+				083FB28E182159C200B717EB /* BluetoothReadQueue.m */,
+				083FB28F182159C200B717EB /* BluetoothSocket.m */,
+				083FB28A182159B500B717EB /* BluetoothConnectionManager.h */,
+				083FB28B182159B500B717EB /* BluetoothReadQueue.h */,
+				083FB28C182159B500B717EB /* BluetoothSocket.h */,
+			);
+			name = Bluetooth;
+			sourceTree = "<group>";
+		};
 		DAED3CE21805A15B0053863D = {
 			isa = PBXGroup;
 			children = (
+				083FB2891821597800B717EB /* Bluetooth */,
 				083FB2871821552500B717EB /* Apportable */,
 				DAED3D021805A15B0053863D /* TestGameKit */,
 				DAED3CED1805A15B0053863D /* Frameworks */,
@@ -961,6 +1000,7 @@
 				DAED3E241805A15C0053863D /* ccCArray.m in Sources */,
 				DAED3D6B1805A15B0053863D /* ccGLStateCache.m in Sources */,
 				DAED3DC41805A15C0053863D /* ccShaders.m in Sources */,
+				083FB291182159C200B717EB /* BluetoothReadQueue.m in Sources */,
 				DAED3E1A1805A15C0053863D /* CCWindow.m in Sources */,
 				DAED3D431805A15B0053863D /* CCActionTween.m in Sources */,
 				DAED3E331805A15C0053863D /* CGPointExtension.m in Sources */,
@@ -1001,6 +1041,7 @@
 				DAED3E301805A15C0053863D /* CCVertex.m in Sources */,
 				DAED3D2B1805A15B0053863D /* CCActionGrid.m in Sources */,
 				DAED3D3D1805A15B0053863D /* CCActionProgressTimer.m in Sources */,
+				083FB292182159C200B717EB /* BluetoothSocket.m in Sources */,
 				DAED3DD61805A15C0053863D /* CCTextureAtlas.m in Sources */,
 				DAED3DEE1805A15C0053863D /* CCTransition.m in Sources */,
 				DAED3D1F1805A15B0053863D /* CCAction.m in Sources */,
@@ -1045,6 +1086,7 @@
 				DAED3D521805A15B0053863D /* CCClippingNode.m in Sources */,
 				DAED3E2C1805A15C0053863D /* ccUtils.c in Sources */,
 				DAED3E271805A15C0053863D /* CCFileUtils.m in Sources */,
+				083FB290182159C200B717EB /* BluetoothConnectionManager.m in Sources */,
 				DAED3E4B1805A15C0053863D /* CDOpenALSupport.m in Sources */,
 				DAED3DA21805A15C0053863D /* CCPhysicsSprite.mm in Sources */,
 				DAED3D341805A15B0053863D /* CCActionInterval.m in Sources */,
@@ -1122,7 +1164,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TestGameKit/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"TestGameKit/libs/kazmath/include\"";
+				HEADER_SEARCH_PATHS = (
+					"\"TestGameKit/libs/kazmath/include\"",
+					/Users/neal/.apportable/SDK/System,
+				);
 				INFOPLIST_FILE = TestGameKit/Resources/Info.plist;
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -1141,7 +1186,10 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TestGameKit/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"TestGameKit/libs/kazmath/include\"";
+				HEADER_SEARCH_PATHS = (
+					"\"TestGameKit/libs/kazmath/include\"",
+					/Users/neal/.apportable/SDK/System,
+				);
 				INFOPLIST_FILE = TestGameKit/Resources/Info.plist;
 				OTHER_LDFLAGS = (
 					"-lz",
