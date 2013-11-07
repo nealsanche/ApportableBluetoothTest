@@ -10,6 +10,10 @@
 		083FB290182159C200B717EB /* BluetoothConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 083FB28D182159C200B717EB /* BluetoothConnectionManager.m */; };
 		083FB291182159C200B717EB /* BluetoothReadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 083FB28E182159C200B717EB /* BluetoothReadQueue.m */; };
 		083FB292182159C200B717EB /* BluetoothSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 083FB28F182159C200B717EB /* BluetoothSocket.m */; };
+		083FB2A7182863E200B717EB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 083FB2A6182863E200B717EB /* Security.framework */; };
+		083FB2AB18296E8C00B717EB /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 083FB2AA18296E8C00B717EB /* Utils.m */; };
+		084FE773182B144900443B97 /* Rendezvous.m in Sources */ = {isa = PBXBuildFile; fileRef = 084FE772182B144900443B97 /* Rendezvous.m */; };
+		084FE776182C0E7500443B97 /* GCDAsyncSocket-Apportable.m in Sources */ = {isa = PBXBuildFile; fileRef = 084FE775182C0E7500443B97 /* GCDAsyncSocket-Apportable.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DAED3CEF1805A15B0053863D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAED3CEE1805A15B0053863D /* QuartzCore.framework */; };
 		DAED3CF11805A15B0053863D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAED3CF01805A15B0053863D /* OpenGLES.framework */; };
 		DAED3CF31805A15B0053863D /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAED3CF21805A15B0053863D /* OpenAL.framework */; };
@@ -161,6 +165,18 @@
 		083FB29818217B8600B717EB /* IConnection.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = IConnection.java; path = apportable/google/src/com/apportable/bluetooth/IConnection.java; sourceTree = "<group>"; };
 		083FB29918217B8600B717EB /* IConnectionCallback.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = IConnectionCallback.java; path = apportable/google/src/com/apportable/bluetooth/IConnectionCallback.java; sourceTree = "<group>"; };
 		083FB29A18217B8600B717EB /* StartDiscoverableModeActivity.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = StartDiscoverableModeActivity.java; path = apportable/google/src/com/apportable/bluetooth/StartDiscoverableModeActivity.java; sourceTree = "<group>"; };
+		083FB29B18283FA500B717EB /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		083FB29E182841B000B717EB /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = CocoaAsyncSocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
+		083FB2A6182863E200B717EB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		083FB2A918296E8C00B717EB /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		083FB2AA18296E8C00B717EB /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		083FB2AC18296F3500B717EB /* Utils.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = Utils.java; path = apportable/google/src/com/apportable/bluetooth/Utils.java; sourceTree = "<group>"; };
+		084FE76F182B103900443B97 /* MultiplayerHandshakeDelegate.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = MultiplayerHandshakeDelegate.java; path = apportable/google/src/com/robotsandpencils/rendezvous/MultiplayerHandshakeDelegate.java; sourceTree = "<group>"; };
+		084FE770182B103900443B97 /* RendezvousManager.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = RendezvousManager.java; path = apportable/google/src/com/robotsandpencils/rendezvous/RendezvousManager.java; sourceTree = "<group>"; };
+		084FE771182B144900443B97 /* Rendezvous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rendezvous.h; sourceTree = "<group>"; };
+		084FE772182B144900443B97 /* Rendezvous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rendezvous.m; sourceTree = "<group>"; };
+		084FE774182BF7C400443B97 /* Rendezvous.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = Rendezvous.java; path = apportable/google/src/com/robotsandpencils/rendezvous/Rendezvous.java; sourceTree = "<group>"; };
+		084FE775182C0E7500443B97 /* GCDAsyncSocket-Apportable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GCDAsyncSocket-Apportable.m"; path = "CocoaAsyncSocket/GCD/GCDAsyncSocket-Apportable.m"; sourceTree = "<group>"; };
 		DAED3CEB1805A15B0053863D /* TestGameKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestGameKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAED3CEE1805A15B0053863D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DAED3CF01805A15B0053863D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -447,6 +463,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				083FB2A7182863E200B717EB /* Security.framework in Frameworks */,
 				DAED3CF31805A15B0053863D /* OpenAL.framework in Frameworks */,
 				DAED3CF91805A15B0053863D /* UIKit.framework in Frameworks */,
 				DAED3CEF1805A15B0053863D /* QuartzCore.framework in Frameworks */,
@@ -474,6 +491,7 @@
 		083FB2891821597800B717EB /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				083FB2AC18296F3500B717EB /* Utils.java */,
 				083FB29318217B8600B717EB /* BluetoothConnectionManager.java */,
 				083FB29418217B8600B717EB /* Connection.java */,
 				083FB29518217B8600B717EB /* ConnectionClientService.java */,
@@ -492,9 +510,41 @@
 			name = Bluetooth;
 			sourceTree = "<group>";
 		};
+		083FB29D1828411200B717EB /* CocoaAsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				084FE775182C0E7500443B97 /* GCDAsyncSocket-Apportable.m */,
+				083FB29E182841B000B717EB /* GCDAsyncSocket.h */,
+			);
+			name = CocoaAsyncSocket;
+			sourceTree = "<group>";
+		};
+		083FB2A818296E6D00B717EB /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				083FB2A918296E8C00B717EB /* Utils.h */,
+				083FB2AA18296E8C00B717EB /* Utils.m */,
+				084FE771182B144900443B97 /* Rendezvous.h */,
+				084FE772182B144900443B97 /* Rendezvous.m */,
+			);
+			name = Bridge;
+			sourceTree = "<group>";
+		};
+		084FE76E182B101D00443B97 /* Rendezvous */ = {
+			isa = PBXGroup;
+			children = (
+				084FE774182BF7C400443B97 /* Rendezvous.java */,
+				084FE76F182B103900443B97 /* MultiplayerHandshakeDelegate.java */,
+				084FE770182B103900443B97 /* RendezvousManager.java */,
+			);
+			name = Rendezvous;
+			sourceTree = "<group>";
+		};
 		DAED3CE21805A15B0053863D = {
 			isa = PBXGroup;
 			children = (
+				084FE76E182B101D00443B97 /* Rendezvous */,
+				083FB29D1828411200B717EB /* CocoaAsyncSocket */,
 				083FB2891821597800B717EB /* Bluetooth */,
 				083FB2871821552500B717EB /* Apportable */,
 				DAED3D021805A15B0053863D /* TestGameKit */,
@@ -514,6 +564,8 @@
 		DAED3CED1805A15B0053863D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				083FB2A6182863E200B717EB /* Security.framework */,
+				083FB29B18283FA500B717EB /* CFNetwork.framework */,
 				DAED3CEE1805A15B0053863D /* QuartzCore.framework */,
 				DAED3CF01805A15B0053863D /* OpenGLES.framework */,
 				DAED3CF21805A15B0053863D /* OpenAL.framework */,
@@ -531,6 +583,7 @@
 		DAED3D021805A15B0053863D /* TestGameKit */ = {
 			isa = PBXGroup;
 			children = (
+				083FB2A818296E6D00B717EB /* Bridge */,
 				DAED3E901805A15D0053863D /* AppDelegate.h */,
 				DAED3E911805A15D0053863D /* AppDelegate.m */,
 				DAED3E931805A15D0053863D /* HelloWorldLayer.h */,
@@ -1075,6 +1128,7 @@
 				DAED3E861805A15D0053863D /* vec2.c in Sources */,
 				DAED3DC11805A15C0053863D /* CCShaderCache.m in Sources */,
 				DAED3D9F1805A15C0053863D /* CCPhysicsDebugNode.m in Sources */,
+				083FB2AB18296E8C00B717EB /* Utils.m in Sources */,
 				DAED3DD91805A15C0053863D /* CCTextureCache.m in Sources */,
 				DAED3E921805A15D0053863D /* AppDelegate.m in Sources */,
 				DAED3E511805A15C0053863D /* CDXPropertyModifierAction.m in Sources */,
@@ -1085,6 +1139,7 @@
 				DAED3E841805A15D0053863D /* utility.c in Sources */,
 				DAED3D521805A15B0053863D /* CCClippingNode.m in Sources */,
 				DAED3E2C1805A15C0053863D /* ccUtils.c in Sources */,
+				084FE773182B144900443B97 /* Rendezvous.m in Sources */,
 				DAED3E271805A15C0053863D /* CCFileUtils.m in Sources */,
 				083FB290182159C200B717EB /* BluetoothConnectionManager.m in Sources */,
 				DAED3E4B1805A15C0053863D /* CDOpenALSupport.m in Sources */,
@@ -1109,6 +1164,7 @@
 				DAED3DDF1805A15C0053863D /* CCTileMapAtlas.m in Sources */,
 				DAED3D6E1805A15B0053863D /* CCGrabber.m in Sources */,
 				DAED3DFF1805A15C0053863D /* CCDirectorIOS.m in Sources */,
+				084FE776182C0E7500443B97 /* GCDAsyncSocket-Apportable.m in Sources */,
 				DAED3E801805A15D0053863D /* quaternion.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1169,6 +1225,7 @@
 					/Users/neal/.apportable/SDK/System,
 				);
 				INFOPLIST_FILE = TestGameKit/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1191,6 +1248,7 @@
 					/Users/neal/.apportable/SDK/System,
 				);
 				INFOPLIST_FILE = TestGameKit/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",

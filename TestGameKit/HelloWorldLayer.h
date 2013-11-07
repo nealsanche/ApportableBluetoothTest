@@ -8,8 +8,8 @@
 
 
 #import <GameKit/GameKit.h>
-#import "BluetoothSocket.h"
-#import "BluetoothConnectionManager.h"
+#import "GCDAsyncSocket.h"
+#import "Rendezvous.h"
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
@@ -17,29 +17,28 @@
 
 typedef struct
 {
-	
 	NSInteger number;
 } BasicPacket;
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer <GKSessionDelegate>
+@interface HelloWorldLayer : CCLayer <GKSessionDelegate, GCDAsyncSocketDelegate, RendezvousDelegate>
 {
-    BluetoothConnectionManager *_bcm;
+    Rendezvous *_rendezvous;
+
+    GCDAsyncSocket *_listenSocket;
+    GCDAsyncSocket *_socket;
+    NSMutableArray *_connectedSockets;
+    NSData *_responseTerminatorData;
+
+    long _udpTag;
 }
 
 @property (nonatomic, strong) NSMutableArray *connectedClients;
 @property (nonatomic, strong) GKSession *session;
-
-
-// returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
-
-
 @property (nonatomic, strong) NSMutableArray *availableServers;
 @property (nonatomic, strong) NSString *serverPeerID;
 
-- (void)didConnectToServer:(BluetoothSocket *)server;
-- (void)connectionReceived:(BluetoothSocket *)clientDevice;
-
+// returns a CCScene that contains the HelloWorldLayer as the only child
++(CCScene *) scene;
 
 @end

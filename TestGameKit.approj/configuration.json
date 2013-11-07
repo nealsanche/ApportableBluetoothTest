@@ -57,7 +57,7 @@
     //   "write_external_storage"
     //   "write_settings"
     //   "xperia"
-    "FEATURES": ["opengles2","landscape", "bluetooth", "bluetooth_admin", "access_wifi_state"],
+    "FEATURES": ["opengles2","landscape", "bluetooth", "bluetooth_admin", "access_wifi_state", "access_network_state", "internet"],
 
     // Preferred way of handling URLs in the code.
     // Leave it null for most cases.
@@ -204,6 +204,10 @@
          "./apportable/google/src/com/apportable/bluetooth/StartDiscoverableModeActivity.java",
          "./apportable/google/src/com/apportable/bluetooth/IConnection.java",
          "./apportable/google/src/com/apportable/bluetooth/IConnectionCallback.java",
+         "./apportable/google/src/com/apportable/bluetooth/Utils.java",
+         "./apportable/google/src/com/robotsandpencils/rendezvous/RendezvousManager.java",
+         "./apportable/google/src/com/robotsandpencils/rendezvous/Rendezvous.java",
+         "./apportable/google/src/com/robotsandpencils/rendezvous/MultiplayerHandshakeDelegate.java",
       ],
 
     //A list of the java root source directories

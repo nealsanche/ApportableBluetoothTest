@@ -12,8 +12,7 @@
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
-
-#import "BluetoothConnectionManager.h"
+#import <BridgeKit/AndroidActivity.h>
 
 #pragma mark - HelloWorldLayer
 
@@ -44,9 +43,13 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super's" return value
 	if( (self=[super init]) ) {
+
+        _udpTag = 0;
         
         self.connectedClients = [NSMutableArray array];
         self.availableServers = [NSMutableArray array];
+
+        _responseTerminatorData = [@"\r\n\r\n" dataUsingEncoding:NSASCIIStringEncoding];
         
 		
 		// create and initialize a Label
@@ -63,31 +66,18 @@
 		
 		
 		
-		//
-		// Leaderboards and Achievements
-		//
-		
 		// Default font size will be 28 points.
 		[CCMenuItemFont setFontSize:28];
-		
 
-		
-		// Achievement Menu Item using blocks
-		CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Server" block:^(id sender) {
-			
+		CCMenuItem *item = [CCMenuItemFont itemWithString:@"Rendezvous" block:^(id sender) {
 			[self server];
-			
-		}];
-		
-		// Leaderboard Menu Item using blocks
-		CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Client" block:^(id sender) {
-			
-			[self client:sender];
-			
 		}];
 
-		
-		CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, nil];
+        CCMenuItem *sendItem = [CCMenuItemFont itemWithString:@"Send" block:^(id sender) {
+			[self sendRandomPacket];
+		}];
+
+		CCMenu *menu = [CCMenu menuWithItems:item, sendItem, nil];
 		
 		[menu alignItemsHorizontallyWithPadding:20];
 		[menu setPosition:ccp( size.width/2, size.height/2 - 50)];
@@ -99,37 +89,43 @@
 	return self;
 }
 
+- (void)rendezvous:(Rendezvous *)rendezvous handleServerNominationWithAddress:(NSString *)clientAddress
+{
+    NSLog(@"Got handleServerNomination.");
+
+    _connectedSockets = [[NSMutableArray alloc] initWithCapacity:1];
+    _listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+
+    NSError *error;
+    if (![_listenSocket acceptOnPort:9991 error:&error]) {
+        NSLog(@"Error accepting on socket: %@", error);
+        return;
+    };
+}
+
+-(void)rendezvous:(Rendezvous *)rendezvous handleClientNominationWithAddress:(NSString *)serverAddress serverPort:(int)serverPort
+{
+    NSLog(@"Got handleClientNomination.");
+    int64_t delayInSeconds = 5.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+        _socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+        NSError *error;
+        if (![_socket connectToHost:serverAddress onPort:serverPort error:&error]) {
+            NSLog(@"Error connecting to socket: %@", error);
+            return;
+        };
+    });
+}
+
 - (void)server {
+    _rendezvous = [[Rendezvous alloc] initWithContext:[AndroidActivity currentActivity]];
+    _rendezvous.delegate = self;
 
-    _bcm = [[BluetoothConnectionManager alloc] initWithName:@"TestGameKit" isClient:NO delegate:self];
-
-    [_bcm startPublishing];
-
-    /*
-    _session = [[GKSession alloc] initWithSessionID:kSessionID displayName:nil sessionMode:GKSessionModeServer];
-    _session.delegate = self;
-    _session.available = YES;
-    [_session setDataReceiveHandler:self withContext:nil];
-     */
+    [_rendezvous _startRendezvous:9991];
 }
 
 - (void)client:(CCMenuItemFont *)menuItem{
-
-    _bcm = [[BluetoothConnectionManager alloc] initWithName:@"TestGameKit" isClient:YES delegate:self];
-
-    [_bcm startSearching];
-
-    /*
-    if (!_session) {
-        _session = [[GKSession alloc] initWithSessionID:kSessionID displayName:nil sessionMode:GKSessionModeClient];
-        _session.delegate = self;
-        _session.available = YES;
-        [_session setDataReceiveHandler:self withContext:nil];
-        [menuItem setString:@"Join"];
-    }else if(_session && [_availableServers count] > 0){
-        [_session connectToPeer:_availableServers[0] withTimeout:5.0f];
-    }
-     */
 
 }
 
@@ -195,12 +191,14 @@
     BasicPacket basicPacket;
     basicPacket.number = arc4random_uniform(99);
     
-    NSError* error = nil;
+    //NSError* error = nil;
 	NSData* packet = [NSData dataWithBytes:&basicPacket length:sizeof(packet)];
     
-    CCLOG(@"SEND number %d", basicPacket.number);
+    NSLog(@"SEND number %d", basicPacket.number);
 
-    
+    [_socket writeData:packet withTimeout:-1 tag:1];
+
+    /*
     
     BOOL result = [_session sendData:packet toPeers:@[self.serverPeerID] withDataMode:GKSendDataReliable error:&error];
     
@@ -209,6 +207,7 @@
     }else if (!error && !result) {
         CCLOG(@"NETWORK ERROR:  No error but did not queue it up");
     }
+     */
 }
 
 - (void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID
@@ -247,7 +246,6 @@
 	{
 		if ([error code] == GKSessionCannotEnableError)
 		{
-
 			[self endSession];
 		}
 	}
@@ -276,13 +274,52 @@
     [self addRandomLabel:basicPacket->number ];
 }
 
-- (void)didConnectToServer:(BluetoothSocket *)server {
-    NSLog(@"didConnectToServer: %@", server);
+- (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
+{
+    NSLog(@"socket:didAcceptNewSocket");
+
+    _socket = newSocket;
+    _socket.delegate = self;
+
+    @synchronized(_connectedSockets)
+    {
+        [_connectedSockets addObject:newSocket];
+    }
+
+    [_socket readDataWithTimeout:-1 tag:2];
 }
 
-- (void)connectionReceived:(BluetoothSocket *)clientDevice {
-    NSLog(@"connectionReceived: %@", clientDevice);
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
+    NSLog(@"socket:didConnectToHost");
+
+    [_socket readDataWithTimeout:-1 tag:2];
 }
 
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
+    NSLog(@"socket:didReadData");
+
+    [self receiveData:data fromPeer:nil inSession:nil context:nil];
+
+    [_socket readDataWithTimeout:-1 tag:2];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadPartialDataOfLength:(NSUInteger)partialLength tag:(long)tag {
+    NSLog(@"socket:didReadPartialDataOfLength");
+
+}
+
+- (void)socketDidCloseReadStream:(GCDAsyncSocket *)sock {
+    NSLog(@"socketDidCloseReadStream");
+
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err {
+    NSLog(@"socketDidDisconnect");
+
+}
+
+-(void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag {
+    NSLog(@"Wrote data with tag %ld", tag);
+}
 
 @end
