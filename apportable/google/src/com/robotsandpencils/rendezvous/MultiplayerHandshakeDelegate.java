@@ -8,4 +8,5 @@ import java.net.InetAddress;
 public interface MultiplayerHandshakeDelegate {
     void clientNomination(InetAddress serverAddress, int serverPort);
     void serverNomination(InetAddress clientAddress);
+    void rendevousError(Throwable error);
 }

@@ -13,6 +13,8 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
+import java.security.SecureRandom;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RendezvousManager {
@@ -29,9 +31,13 @@ public class RendezvousManager {
     private InetAddress clientAddress;
     private InetAddress serverAddress;
     private int serverPort;
+    private long timeStamp;
+    private int localTieBreaker;
 
     private Thread serverThread;
     private Thread clientThread;
+
+    private Throwable error = null;
 
     public RendezvousManager(Context context) {
         this.context = context;
@@ -43,6 +49,7 @@ public class RendezvousManager {
             @Override
             public void run() {
 
+                Throwable error = null;
                 String data = "Rendezvous";
                 byte[] dataBytes = data.getBytes(Charset.forName("utf8"));
 
@@ -50,8 +57,6 @@ public class RendezvousManager {
                 try {
                     socket = new DatagramSocket(PORT);
                 } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -63,7 +68,7 @@ public class RendezvousManager {
                         DatagramPacket packet = new DatagramPacket(dataBytes, 0, dataBytes.length, getBroadcastAddress(), DISCOVERY_PORT);
 
                         boolean acknowledged = false;
-                        while (!acknowledged && !isServer.get() && !isClient.get() && !Thread.currentThread().isInterrupted()) {
+                        while (!acknowledged && !isServer.get() && !isClient.get() && !Thread.currentThread().isInterrupted() && RendezvousManager.this.error == null) {
                             socket.send(packet);
 
                             try {
@@ -76,18 +81,15 @@ public class RendezvousManager {
 
                                     if (req.equals("ACK")) {
 
-                                        // Send an ACK back and also send port
-                                        data = "ACK:" + port;
+                                        // Send an ACK back and also send port, timestamp and tiebreaker
+                                        data = "ACK:" + port + ":" + timeStamp + ":" + localTieBreaker;
                                         dataBytes = data.getBytes(Charset.forName("utf8"));
                                         DatagramPacket responsePacket = new DatagramPacket(dataBytes, 0, dataBytes.length, receivePacket.getAddress(), receivePacket.getPort());
+
+                                        // Triple send, this is UDP
                                         socket.send(responsePacket);
-
-                                        if (!isClient.get() && isServer.compareAndSet(false, true)) {
-                                            clientAddress = receivePacket.getAddress();
-                                            acknowledged = true;
-
-                                            delegate.serverNomination(clientAddress);
-                                        }
+                                        socket.send(responsePacket);
+                                        socket.send(responsePacket);
                                     }
                                 }
                             } catch (SocketTimeoutException e) {
@@ -96,13 +98,18 @@ public class RendezvousManager {
                         }
                     }
                 } catch (UnknownHostException e) {
-                    e.printStackTrace();
+                    error = e;
                 } catch (SocketException e) {
-                    e.printStackTrace();
+                    error = e;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    error = e;
                 } finally {
                     if (socket != null) socket.close();
+                }
+
+                if (error != null) {
+                    RendezvousManager.this.error = error;
+                    delegate.rendevousError(error);
                 }
 
                 Log.v(LOGTAG, "Server thread finished.");
@@ -119,11 +126,14 @@ public class RendezvousManager {
             @Override
             public void run() {
 
+                Throwable error = null;
+
                 DatagramSocket clientSocket = null;
                 try {
                     clientSocket = new DatagramSocket(DISCOVERY_PORT, getBroadcastAddress());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    error = e;
+                    RendezvousManager.this.error = e;
                 }
 
                 try {
@@ -132,7 +142,7 @@ public class RendezvousManager {
 
                     DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
 
-                    while (!received && !isServer.get() && !isClient.get() && !Thread.currentThread().isInterrupted()) {
+                    while (!received && !isServer.get() && !isClient.get() && !Thread.currentThread().isInterrupted() && RendezvousManager.this.error == null) {
                         try {
                             clientSocket.setSoTimeout(RECEIVE_TIMEOUT);
                             clientSocket.receive(receivePacket);
@@ -147,7 +157,11 @@ public class RendezvousManager {
                                 DatagramPacket responsePacket = new DatagramPacket(dataBytes, 0, dataBytes.length, receivePacket.getAddress(), receivePacket.getPort());
 
                                 try {
+                                    // Triple send, just in case since this is UDP
                                     sendSocket.send(responsePacket);
+                                    sendSocket.send(responsePacket);
+                                    sendSocket.send(responsePacket);
+
                                     receivePacket = new DatagramPacket(new byte[1024], 1024);
                                     sendSocket.receive(receivePacket);
 
@@ -156,13 +170,25 @@ public class RendezvousManager {
 
                                         if (req.startsWith("ACK:")) {
 
-                                            serverPort = Integer.parseInt(req.substring(req.indexOf(':') + 1));
+                                            String[] parts = req.split(":");
 
-                                            if (!isServer.get() && isClient.compareAndSet(false, true)) {
-                                                received = true;
+                                            serverPort = Integer.parseInt(parts[1]);
+                                            long otherTimeStamp = Long.parseLong(parts[2]);
+                                            int tieBreaker = Integer.parseInt(parts[3]);
+
+                                            if (otherTimeStamp < timeStamp || (otherTimeStamp == timeStamp && tieBreaker < localTieBreaker)) {
+                                                // We are the client, they are the server
                                                 serverAddress = receivePacket.getAddress();
                                                 delegate.clientNomination(serverAddress, serverPort);
+                                                isClient.set(true);
+                                            } else {
+                                                // We are the server, they are the client
+                                                clientAddress = receivePacket.getAddress();
+                                                delegate.serverNomination(clientAddress);
+                                                isServer.set(true);
                                             }
+
+                                            received = true;
                                         }
                                     }
 
@@ -175,16 +201,19 @@ public class RendezvousManager {
                         }
                     }
 
-                    clientSocket.close();
-
                 } catch (UnknownHostException e) {
-                    e.printStackTrace();
+                    error = e;
                 } catch (SocketException e) {
-                    e.printStackTrace();
+                    error = e;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    error = e;
                 } finally {
-                    clientSocket.close();
+                    if (clientSocket != null) clientSocket.close();
+                }
+
+                if (error != null) {
+                    RendezvousManager.this.error = error;
+                    delegate.rendevousError(error);
                 }
 
                 Log.v(LOGTAG, "Client thread finished.");
@@ -199,6 +228,7 @@ public class RendezvousManager {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         DhcpInfo dhcp = wifi.getDhcpInfo();
         int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+        if (broadcast == -1) throw new WifiNetworkUnavailableException("Wifi Network Unavailable.");
         byte[] quads = new byte[4];
         for (int k = 0; k < 4; k++)
             quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
@@ -209,6 +239,7 @@ public class RendezvousManager {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         DhcpInfo dhcp = wifi.getDhcpInfo();
         int addr = dhcp.ipAddress;
+        if (addr == 0) throw new WifiNetworkUnavailableException("Wifi Network Unavailable.");
         byte[] quads = new byte[4];
         for (int k = 0; k < 4; k++)
             quads[k] = (byte) ((addr >> k * 8) & 0xFF);
@@ -218,6 +249,14 @@ public class RendezvousManager {
     public void startRendezvous(int serverPort, MultiplayerHandshakeDelegate delegate) {
         isServer.set(false);
         isClient.set(false);
+
+        // Generate a timestamp that will be used during nomination to choose the server
+        timeStamp = System.currentTimeMillis();
+
+        // Generate a random number, just in case both timeStamps are identical
+        localTieBreaker = new SecureRandom().nextInt();
+
+        error = null;
         startServerTask(serverPort, delegate);
         startClientTask(delegate);
     }
