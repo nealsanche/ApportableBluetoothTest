@@ -1,4 +1,4 @@
-ApportableBluetoothTest
-=======================
+ApportableRendezvous
+====================
 
-An application which attempts to use Apportable's open source BlueTooth implementation in a game context.
+Wifi Discovery of peers on a local network using a UDP rendezvous protocol. Callbacks tell the game what to do, whether to be a client, or a server. The application then sets up the appropriate sockets and starts communications.
