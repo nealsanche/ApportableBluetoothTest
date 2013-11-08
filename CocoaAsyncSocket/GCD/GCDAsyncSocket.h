@@ -21,7 +21,7 @@
 
   // Compiling for iOS
 
-  #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 50000 // iOS 5.0 supported
+  #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 50000 && !defined(APPORTABLE) // iOS 5.0 supported
   
     #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000 // iOS 5.0 supported and required
 
