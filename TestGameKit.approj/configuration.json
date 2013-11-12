@@ -208,6 +208,7 @@
          "./apportable/google/src/com/robotsandpencils/rendezvous/RendezvousManager.java",
          "./apportable/google/src/com/robotsandpencils/rendezvous/Rendezvous.java",
          "./apportable/google/src/com/robotsandpencils/rendezvous/MultiplayerHandshakeDelegate.java",
+         "./apportable/google/src/com/robotsandpencils/rendezvous/WifiNetworkUnavailableException.java",
       ],
 
     //A list of the java root source directories

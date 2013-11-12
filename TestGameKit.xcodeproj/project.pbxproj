@@ -150,6 +150,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		083C66AC18328BFB0010F4F2 /* WifiNetworkUnavailableException.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; name = WifiNetworkUnavailableException.java; path = apportable/google/src/com/robotsandpencils/rendezvous/WifiNetworkUnavailableException.java; sourceTree = "<group>"; };
 		083FB2881821553D00B717EB /* configuration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = configuration.json; path = TestGameKit.approj/configuration.json; sourceTree = "<group>"; };
 		083FB28A182159B500B717EB /* BluetoothConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectionManager.h; path = apportable/include/bluetooth/BluetoothConnectionManager.h; sourceTree = "<group>"; };
 		083FB28B182159B500B717EB /* BluetoothReadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothReadQueue.h; path = apportable/include/bluetooth/BluetoothReadQueue.h; sourceTree = "<group>"; };
@@ -533,6 +534,7 @@
 		084FE76E182B101D00443B97 /* Rendezvous */ = {
 			isa = PBXGroup;
 			children = (
+				083C66AC18328BFB0010F4F2 /* WifiNetworkUnavailableException.java */,
 				084FE774182BF7C400443B97 /* Rendezvous.java */,
 				084FE76F182B103900443B97 /* MultiplayerHandshakeDelegate.java */,
 				084FE770182B103900443B97 /* RendezvousManager.java */,
